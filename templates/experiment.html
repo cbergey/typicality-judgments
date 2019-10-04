@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <div class="main_div">
+        <div id="stimulus">
+            <h1></h1>
+            <div><blockquote id="story"><p>&lt;&lt; loading &gt;&gt;</p></blockquote></div>
+            <button type="button" class="btn btn-primary submit-response" id="extremely_atypical" onClick="submit_response(1);">Extremely Atypical</button>
+                <button type="button" class="btn btn-primary submit-response" id="very_atypical" onClick="submit_response(2);">Very Atypical</button>
+                <button type="button" class="btn btn-primary submit-response" id="somewhat_atypical" onClick="submit_response(3);">Somewhat Atypical</button>
+                <button type="button" class="btn btn-primary submit-response" id="neither_nor" onClick="submit_response(4);">Neither Typical nor Atypical</button>
+                <button type="button" class="btn btn-primary submit-response" id="somewhat_typical" onClick="submit_response(5);">Somewhat Typical</button>
+                <button type="button" class="btn btn-primary submit-response" id="very_typical" onClick="submit_response(6);">Very Typical</button>
+                <button type="button" class="btn btn-primary submit-response" id="extremely_typical" onClick="submit_response(7);">Extremely Typical</button>
+            
+        </div>
+
+        <div id="response-form" style="display:none;">
+            <h1>Now reproduce the passage, verbatim:</h1>
+            <p><b>Note:</b> Your task is to recreate the text, word for word, to the best of your ability.<p>
+            <textarea id="reproduction" class="form-control" rows="10"></textarea>
+            <p></p>
+            <button id="submit-response" type="button" class="btn btn-primary">Submit response.</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        create_agent();
+    </script>
+{% endblock %}
