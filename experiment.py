@@ -25,14 +25,11 @@ class typicalityjudgments(Experiment):
     """Define the structure of the experiment."""
 
     def __init__(self, session=None):
-        """Call the same function in the super (see experiments.py in dallinger).
-
-        A few properties are then overwritten.
-
-        Finally, setup() is called.
+        """
+        calls init in super and overwrites models, repeats, recruitment size
         """
         super(typicalityjudgments, self).__init__(session)
-        from . import models  # Import at runtime to avoid SQLAlchemy warnings
+        from . import models 
 
         self.models = models
         self.experiment_repeats = 4
@@ -45,12 +42,8 @@ class typicalityjudgments(Experiment):
         self.num_participants = config.get("num_participants")
 
     def setup(self):
-        """Setup the networks.
-
-        Setup only does stuff if there are no networks, this is so it only
-        runs once at the start of the experiment. It first calls the same
-        function in the super (see experiments.py in dallinger). Then it adds a
-        source to each network.
+        """
+        set up networks
         """
         if not self.networks():
             super(typicalityjudgments, self).setup()
@@ -58,11 +51,15 @@ class typicalityjudgments(Experiment):
                 self.models.adjectivenounsource(network=net)
 
     def create_network(self):
-        """Return a new network."""
+        """
+        return a new burst network. 
+        this network has a central node which distributes the stimuli; 
+        participant nodes attach to it and only receive info from it.
+        """
         return Burst(max_size = 3)
 
     def add_node_to_network(self, node, network):
-        """Add node to the chain and receive transmissions."""
+        """add node to the burst and get transmission (stimuli) from center of burst"""
         network.add_node(node)
         parents = node.neighbors(direction="from")
         if len(parents):
@@ -96,7 +93,7 @@ class typicalityjudgments(Experiment):
         return chosen_network
 
     def recruit(self):
-        """Recruit one participant at a time until all networks are full."""
+        """recruit one at a time"""
         if self.networks(full=False):
             self.recruiter.recruit(n=1)
         else:
@@ -104,7 +101,7 @@ class typicalityjudgments(Experiment):
 
 
 class Bot(BotBase):
-    """Bot tasks for experiment participation"""
+    """we're not using bots yet, but this is a mockup of what they might do"""
 
     def participate(self):
         """Finish reading and send text"""
@@ -133,7 +130,3 @@ class Bot(BotBase):
             return True
         except TimeoutException:
             return False
-
-    def transform_text(self, text):
-        """Experimenter decides how to simulate participant response"""
-        return "Some transformation...and %s" % text

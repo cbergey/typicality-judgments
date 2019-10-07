@@ -27,7 +27,6 @@ var get_info = function() {
     });
 };
 
-// Create the agent.
 var create_agent = function() {
   $('#finish-reading').prop('disabled', true);
   dallinger.createAgent()
@@ -64,21 +63,12 @@ submit_response = function(choice) {
   });
 };
 
-// Consent to the experiment.
 $(document).ready(function() {
-
-  // $("#extremely_atypical").click(function() {
-  //   $("#stimulus").hide();
-  //   $("#response-form").show();
-  //   $("#submit-response").removeClass('disabled');
-  //   $("#submit-response").html('Submit');
-  // });
 
   $("#submit-response").click(function() {
     $("#submit-response").addClass('disabled');
     $("#submit-response").html('Sending...');
 
-    //$("#reproduction").val("");
 
     dallinger.createInfo(my_node_id, {
       contents: response,
