@@ -1,1 +1,51 @@
 {% extends "base/consent.html" %}
+
+{% block body %}
+<div class="main_div">
+	<noscript>
+		<h1>Warning: Javascript is not working on your browser</h1>
+		<p>The study will not work unless Javascript is enabled on your browser.</p>
+		<p>Please enable Javascript then refresh this page.<p>
+		</noscript>
+		<h1>We need your consent to proceed</h1>
+		<hr>
+		<div class="consent_div text-justify"><small>
+			{% block consent_text %}
+			<center><p>THE UNIVERSITY OF CHICAGO<br/>
+				Communication and Learning Lab<br/>
+			Principal Investigator: Daniel Yurovsky</p></center>
+
+			<p>DESCRIPTION: We are asking you to participate in a research study about language learning. 
+			In this study, we will present you with a variety of stimuli, including natural and artificial language samples, pictures of known or unknown objects, and/or movies of people talking. Sometimes some of the speech you will hear will be from a foreign or made-up language. Participation should take about 3 minutes*.  </p>
+
+			<p>RISKS AND BENEFITS: The risks to your participation in this online study are those associated with basic computer tasks, including boredom, fatigue, mild stress, or breach of confidentiality. The only benefit to you is the learning experience from participating in a research study.  
+			COMPENSATION: You will receive 30 cents for your participation. NOTE: This study contains comprehension checks to make sure that participants are paying attention.  As long as you read the instructions and complete the tasks, your HIT will be approved.  If you fail these checks, your HIT will be rejected.</p>
+			<p>CONFIDENTIALITY: Your Mechanical Turk Worker ID will be used to distribute payment to you but will not be stored with the research data we collect from you.  Please be aware that your MTurk Worker ID can potentially be linked to information about you on your Amazon public profile page, depending on the settings you have for your Amazon profile.  We will not be accessing any personally identifying information about you that you may have put on your Amazon public profile page.</p>
+			<p>The research is being conducted with the goal of publication in academic journals and presentations at academic conferences. Any reports and presentations about the findings from this study will not include your name or any other information that could identify you. We may share the data we collect in this study with other researchers– again, we will not include information that could identify you.</p>
+			<p>SUBJECT’S RIGHTS: Your participation is voluntary.  You may stop participating at any time by closing the browser window or the program to withdraw from the study. </p>
+			<p>CONTACT:  If you have any questions, comments, or concerns please contact Daniel Yurovsky at yurovsky@uchicago.edu.</p>
+
+			<p>For questions about your rights as a research participant, you may contact:</p>
+			<p>The Social and Behavioral Sciences Institutional Review Board<br/>
+				University of Chicago<br/>
+				Phone: (773) 834-7835<br/>
+			E-mail: sbs-irb@uchicago.edu</p>
+			       
+			<p> In this experiment, you will be presented with questions about how often certain types of things have certain characteristics. For instance, how often is a table a wooden table? You'll be asked to rate on a scale that ranges from never to always. </p> 
+
+			<p>Please indicate by clicking the button below that you are at least 18 years old, have read and understand this consent form, and you agree to participate in this online research study.</p>
+			{% endblock consent_text %}
+			<hr>
+			<h4>Do you understand and consent to these terms?</h4>
+			<br>
+			{% block consent_button %}
+			<button type="button" class="btn btn-primary btn-lg" id="consent" onClick="window.location='/instructions/instruct-ready?hit_id={{ hit_id }}&assignment_id={{ assignment_id }}&worker_id={{ worker_id }}&mode={{ mode }}';" style="float: left;">I agree
+			</button>
+			{% endblock consent_button %}
+			{% block reject_button %}
+			<button type="button" class="btn btn-danger btn-lg" onClick="self.close();" style="float: right;">No thanks (exit HIT)
+			</button>
+			{% endblock reject_button %}
+		</div>
+	</div>
+	{% endblock %}

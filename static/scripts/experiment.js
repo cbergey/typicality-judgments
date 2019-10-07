@@ -11,12 +11,12 @@ var get_info = function() {
       var stims = resp.infos[0].contents;
       console.log(resp.infos)
       console.log(stims)
-      stims = stims.trim("{}\"")
-      var words = stims.split(" ")
-      console.log(words)
-      adj = words[trial*2]
-      noun = words[trial*2 + 1]
-      $("#story").html("How typical is it for a " + noun + " to be " + adj + "?");
+      stims = stims.replace(/[\.-\/#!$%\^&\*;:{}=\-_`~()@\+\?><\[\]\+]/g, '')
+      var words = stims.split(",")
+      adj = words[trial*3]
+      noun = words[trial*3 + 1]
+      adj.trim()
+      $("#story").html("How typical is it for a <b>" + noun + "</b> to be <b>" + adj + "</b>?");
       $("#stimulus").show();
       $("#response-form").hide();
       $("#submit-response").show();
