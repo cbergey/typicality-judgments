@@ -115,8 +115,6 @@ class Bot(BotBase):
             )
             stimulus = self.driver.find_element_by_id("stimulus")
             story = stimulus.find_element_by_id("story")
-            #story_text = story.text
-            #story_text = str(story[0] + " " + story[1])
             logger.info("Stimulus text:")
             logger.info(story)
             ready.click()
@@ -127,7 +125,7 @@ class Bot(BotBase):
                 EC.element_to_be_clickable((By.ID, "reproduction"))
             )
             textarea.clear()
-            text = story #self.transform_text(story_text)
+            text = story 
             logger.info("Transformed text:")
             logger.info(text)
             textarea.send_keys(text)
