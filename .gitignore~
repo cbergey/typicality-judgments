@@ -43,5 +43,6 @@ snapshots/
 
 *.pyc
 .Rproj.user
-templates/consent.html
-data/*
+
+data/*data.csv
+data/*.zip

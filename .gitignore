@@ -44,4 +44,5 @@ snapshots/
 *.pyc
 .Rproj.user
 
-data/*
+data/*data/
+data/*.zip
