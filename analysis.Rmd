@@ -9,6 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(here)
 library(ggthemes)
+library(janitor)
 library(tidyboot)
 ```
 
@@ -39,11 +40,30 @@ ggplot(data, aes(x = contents)) +
   geom_histogram(bins = 7)
 
 interrater <- data %>%
-  mutate(stim = paste0(property2,property1)) %>%
-  group_by(stim)
+  unite(stim, property1, property2) %>%
+  group_by(stim) %>%
+  summarise(n = n()) %>%
+  filter(n == 2)
 
+wide_data <- data %>%
+  unite(stim, property1, property2) %>%
+  select(-subid, -id) %>%
+  filter(stim %in% interrater$stim) %>%
+  group_by(stim) %>%
+  mutate(response = 1:n()) %>%
+  spread(response, contents) %>%
+  clean_names() %>%
+  rowwise() %>%
+  mutate(range = max(x1, x2) - min(x1, x2))
 
+wide_data %>%
+  arrange(desc(range)) %>%
+  separate(stim, into = c("adjective", "noun"))
 
+ggplot(wide_data, aes(x = x1, y = x2)) + 
+  geom_jitter()
+
+cor.test(wide_data$x1, wide_data$x2)
 ```
 
 
