@@ -101,6 +101,15 @@ class typicalityjudgments(Experiment):
         else:
             self.recruiter.close_recruitment()
 
+    def get_attention_check_value(self, participant):
+        print(participant.nodes()[0][-1])
+        return participant.nodes()[0][-1]
+
+    def attention_check(self, participant):
+        print(get_attention_check_value() == 5)
+        return get_attention_check_value() == 5
+
+
 
 class Bot(BotBase):
     """we're not using bots yet, but this is a mockup of what they might do"""

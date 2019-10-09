@@ -46,3 +46,4 @@ snapshots/
 
 data/*data/
 data/*.zip
+static/.DS_Store
