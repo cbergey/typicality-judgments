@@ -46,3 +46,5 @@ snapshots/
 
 data/*data/
 data/*.zip
+
+*DS_Store
