@@ -1,0 +1,43 @@
+---
+title: "pilotanalysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(here)
+library(ggthemes)
+library(tidyboot)
+```
+
+```{r analysis}
+
+raw_data <- read_csv(here("data/info.csv")) %>%
+  rename(subid = origin_id)
+
+subj_check <- raw_data %>%
+  select(subid, property2, contents) %>%
+  filter(!is.na(property2)) %>%
+  filter(property2 == "attentioncheck") %>%
+  mutate(attncheckscore = ifelse(contents == 5, 1, 0)) %>%
+  select(subid, attncheckscore) %>%
+  distinct()
+
+data <- raw_data %>%
+  select(id, subid, property1, property2, contents, network_id) %>%
+  filter(!is.na(property1)) %>%
+  left_join(subj_check) %>%
+  filter(attncheckscore == 1) %>%
+  mutate(contents = as.numeric(contents))
+
+ggplot(data, aes(x = network_id)) +
+  geom_histogram(bins = 10)
+
+
+
+
+```
+
+

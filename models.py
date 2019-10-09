@@ -1,6 +1,7 @@
 from dallinger.nodes import Source
 import random
 import csv 
+numtrials = 20
 
 class adjectivenounsource(Source):
     """A Source that reads in a random story from a file and transmits it."""
@@ -20,7 +21,7 @@ class adjectivenounsource(Source):
             for row in reader:
                 if row[0] == "adj":
                     continue
-                if i == 10:
+                if i == numtrials:
                     allstims.append(stims)
                     stims = list()
                     i = 0

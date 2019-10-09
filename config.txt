@@ -1,20 +1,21 @@
 [Experiment]
-mode = sandbox
+mode = live
 auto_recruit = true
 webdriver_type = phantomjs
-num_participants = 9
+num_participants = 20
 
 [MTurk]
-title = typicality_judgments
-description = Read a brief story and answer some questions about it.
-keywords = Psychology, reading, text
-base_payment = 1.00
+title = Typicality Judgments
+description = Rate the how typical pairs of objects and descriptors are.
+keywords = Psychology, reading, typical
+base_payment = 0.30
 lifetime = 24
 duration = 0.1
 us_only = true
 approve_requirement = 95
+contact_email_on_error = callab.uchicago@gmail.com
+ad_group = Typicality Judgments
 organization_name = University of Chicago
-contact_email_on_error = cbergey@uchicago.edu
 browser_exclude_rule = MSIE, mobile, tablet
 
 [Database]
@@ -27,6 +28,5 @@ num_dynos_web = 1
 num_dynos_worker = 1
 redis_size = hobby-dev
 host = 0.0.0.0
-notification_url = None
 clock_on = false
 logfile = -

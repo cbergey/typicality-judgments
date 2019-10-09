@@ -1,4 +1,4 @@
-""" experiment to elicit typicality judgments about noun-adjective pairs"""
+""" experiment to elicit typicality judgments about noun-adjective pairs """
 
 import logging
 
@@ -32,8 +32,8 @@ class typicalityjudgments(Experiment):
         from . import models 
 
         self.models = models
-        self.experiment_repeats = 4
-        self.initial_recruitment_size = 1
+        self.experiment_repeats = 10
+        self.initial_recruitment_size = 10
         if session:
             self.setup()
 
@@ -55,6 +55,8 @@ class typicalityjudgments(Experiment):
         return a new burst network. 
         this network has a central node which distributes the stimuli; 
         participant nodes attach to it and only receive info from it.
+
+        max_size is the number of judgments per item + 1.
         """
         return Burst(max_size = 3)
 

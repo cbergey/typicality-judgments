@@ -42,3 +42,6 @@ snapshots/
 /*cache*/
 
 *.pyc
+.Rproj.user
+templates/consent.html
+data/*

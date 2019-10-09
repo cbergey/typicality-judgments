@@ -2,29 +2,42 @@ var my_node_id;
 var trial = 0;
 var adj = ""
 var noun = ""
+var numtrials = 20
 
 var get_info = function() {
   // Get info for node
+  if (trial == numtrials) {
+    noun = "attentioncheck"
+    adj = ""
+    $("#question").html("Select \"Often\".");
+    $("#stimulus").show();
+    $("#response-form").hide();
+    $("#submit-response").show();
+  } else {
   
-  dallinger.getReceivedInfos(my_node_id)
-    .done(function (resp) {
-      var stims = resp.infos[0].contents;
-      console.log(resp.infos)
-      console.log(stims)
-      stims = stims.replace(/[\.-\/#!$%\^&\*;:{}=\-_`~()@\+\?><\[\]\+]/g, '')
-      var words = stims.split(",")
-      adj = words[trial*3]
-      noun = words[trial*3 + 1]
-      adj.trim()
-      $("#story").html("How typical is it for a <b>" + noun + "</b> to be <b>" + adj + "</b>?");
-      $("#stimulus").show();
-      $("#response-form").hide();
-      $("#submit-response").show();
-    })
-    .fail(function (rejection) {
-      console.log(rejection);
-      $('body').html(rejection.html);
-    });
+    dallinger.getReceivedInfos(my_node_id)
+      .done(function (resp) {
+        var stims = resp.infos[0].contents;
+        stims = stims.replace(/[\.-\/#!$%\^&\*;:{}=\-_`~()@\+\?><\[\]\+]/g, '')
+        var words = stims.split(",")
+        adj = words[trial*3]
+        noun = words[trial*3 + 1]
+        if (words[trial*3 + 2] == "NA") {
+          var article = ""
+        } else {
+          var article = words[trial*3 + 2] + " "
+        } 
+        adj.trim()
+        $("#question").html("How common is it for " + article + "<b>" + noun + "</b> to be " + article + "<b>" + adj + " " + noun + "</b>?");
+        $("#stimulus").show();
+        $("#response-form").hide();
+        $("#submit-response").show();
+      })
+      .fail(function (rejection) {
+        console.log(rejection);
+        $('body').html(rejection.html);
+      });
+  }
 };
 
 var create_agent = function() {
@@ -55,7 +68,7 @@ submit_response = function(choice) {
     info_type: 'Info'
   }).done(function (resp) {
     trial = trial + 1;
-    if (trial == 0 || trial == 10) {
+    if (trial == 0 || trial == (numtrials + 1)) {
       create_agent();
     } else {
       get_info();
@@ -75,7 +88,7 @@ $(document).ready(function() {
       property3: response,
       info_type: 'Info'
     }).done(function (resp) {
-      if (trial == 0 || trial == 10) {
+      if (trial == 0 || trial == (numtrials + 1)) {
         create_agent();
       } else {
         get_info();
