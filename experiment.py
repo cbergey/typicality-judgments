@@ -32,8 +32,8 @@ class typicalityjudgments(Experiment):
         from . import models 
 
         self.models = models
-        self.experiment_repeats = 10
-        self.initial_recruitment_size = 10
+        self.experiment_repeats = 5
+        self.initial_recruitment_size = 1
         if session:
             self.setup()
 
@@ -100,15 +100,16 @@ class typicalityjudgments(Experiment):
             self.recruiter.recruit(n=1)
         else:
             self.recruiter.close_recruitment()
-
-    def get_attention_check_value(self, participant):
-        print(participant.nodes()[0][-1])
-        return participant.nodes()[0][-1]
-
+'''
     def attention_check(self, participant):
-        print(get_attention_check_value() == 5)
-        return get_attention_check_value() == 5
-
+        node = participant.nodes()[0]
+        val = int(node.infos()[-1].contents)
+        atn = node.infos()[-1].property2
+        self.log(val)
+        self.log(atn)
+        self.log(val == 5)
+        return (val == 5)
+'''
 
 
 class Bot(BotBase):

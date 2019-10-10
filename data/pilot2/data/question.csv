@@ -1,0 +1,10 @@
+id,creation_time,property1,property2,property3,property4,property5,failed,time_of_death,details,type,participant_id,number,question,response
+1,2019-10-09 23:45:23.96145,,,,,,f,,{},question,1,1,questionnaire,"{""clarity"":""10"",""comments"":"""",""engagement"":""10"",""difficulty"":""1""}"
+2,2019-10-09 23:47:04.431621,,,,,,f,,{},question,3,1,questionnaire,"{""clarity"":""10"",""comments"":"""",""engagement"":""6"",""difficulty"":""2""}"
+3,2019-10-09 23:48:56.190473,,,,,,f,,{},question,4,1,questionnaire,"{""clarity"":""10"",""comments"":"""",""engagement"":""7"",""difficulty"":""2""}"
+4,2019-10-09 23:51:23.241773,,,,,,f,,{},question,5,1,questionnaire,"{""clarity"":""10"",""comments"":"""",""engagement"":""10"",""difficulty"":""6""}"
+5,2019-10-09 23:52:15.457411,,,,,,f,,{},question,6,1,questionnaire,"{""clarity"":""10"",""comments"":"""",""engagement"":""10"",""difficulty"":""3""}"
+6,2019-10-09 23:53:26.468492,,,,,,f,,{},question,8,1,questionnaire,"{""clarity"":""10"",""comments"":"""",""engagement"":""10"",""difficulty"":""1""}"
+7,2019-10-09 23:53:28.67946,,,,,,f,,{},question,7,1,questionnaire,"{""clarity"":""10"",""comments"":"""",""engagement"":""10"",""difficulty"":""4""}"
+8,2019-10-09 23:56:44.034698,,,,,,f,,{},question,9,1,questionnaire,"{""clarity"":""10"",""comments"":""None"",""engagement"":""10"",""difficulty"":""1""}"
+9,2019-10-10 00:06:25.379643,,,,,,f,,{},question,10,1,questionnaire,"{""clarity"":""10"",""comments"":"""",""engagement"":""10"",""difficulty"":""1""}"

@@ -60,7 +60,7 @@ var create_agent = function() {
 };
 
 submit_response = function(choice) {
-
+  $("#stimulus").hide();
   dallinger.createInfo(my_node_id, {
     contents: choice,
     property1: adj,
