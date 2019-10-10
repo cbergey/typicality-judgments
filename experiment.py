@@ -32,8 +32,8 @@ class typicalityjudgments(Experiment):
         from . import models 
 
         self.models = models
-        self.experiment_repeats = 5
-        self.initial_recruitment_size = 1
+        self.experiment_repeats = 111
+        self.initial_recruitment_size = 40
         if session:
             self.setup()
 
@@ -58,7 +58,7 @@ class typicalityjudgments(Experiment):
 
         max_size is the number of judgments per item + 1.
         """
-        return Burst(max_size = 3)
+        return Burst(max_size = 5)
 
     def add_node_to_network(self, node, network):
         """add node to the burst and get transmission (stimuli) from center of burst"""
