@@ -33,6 +33,13 @@ data <- raw_data %>%
   filter(attncheckscore == 1) %>%
   mutate(contents = as.numeric(contents))
 
+
+data %>%
+  group_by(subid) %>%
+  summarise(sd = sd(contents)) %>%
+  pull(sd) %>%
+  hist()
+
 ggplot(data, aes(x = network_id)) +
   geom_histogram(bins = 10)
 
@@ -58,7 +65,8 @@ wide_data <- data %>%
 
 wide_data %>%
   arrange(desc(range)) %>%
-  separate(stim, into = c("adjective", "noun"))
+  separate(stim, into = c("adjective", "noun")) %>% 
+  View()
 
 ggplot(wide_data, aes(x = x1, y = x2)) + 
   geom_jitter()
