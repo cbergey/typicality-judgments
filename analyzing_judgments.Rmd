@@ -1,0 +1,132 @@
+---
+title: "Analyzing Human Typicality Judgments + LDP Usage"
+author: "ben morris"
+date: "8/1/2019"
+output: html_document
+---
+
+
+```{r setup}
+#set up
+library(tidyverse)
+library(ggridges)
+library(ggforce)
+
+
+knitr::opts_chunk$set(fig.align='center', echo=FALSE, messages=FALSE, warning = FALSE,
+                      fig.height = 3, fig.width=5)
+```
+
+
+```{r}
+#read in the judgment data
+# judgments_session <- read.csv("full_judgments_callab.csv")
+full_turk_counts <- read.csv("data/judgements_session.csv")
+```
+
+
+```{r}
+#get overall usage data
+judgments_overall <- full_turk_counts %>%
+  group_by(mean_typ) %>%
+  summarize(sum=sum(n))
+
+#and plot overall usage
+ggplot(data=judgments_overall, aes(x=mean_typ, y=sum)) +
+  geom_bar(stat="identity") +  
+  scale_x_continuous(breaks = 1:7) 
+
+
+
+
+```
+
+
+
+```{r}
+#take session level usage
+#  plot overall frequencies at each session
+full_turk_counts_plot <- full_turk_counts
+full_turk_counts_plot$session2 <- cut(full_turk_counts_plot$session, 
+                   breaks=c(0, 2, 4, 6, 8, 10, 12),
+                   labels = c(14, 22, 30, 38, 42, 50))
+                   # breaks=c(0, 3, 6, 9, 12, 10, 12))
+
+
+full_turk_counts_plot %>%
+  mutate(typicality=mean_typ) %>%
+  mutate(age = (4*session + 10)) %>%
+  group_by(session2) %>%
+  mutate(age=min(age)) %>% 
+  ggplot( aes(x=as.numeric(typicality), y=age, group=age, fill=age)) +
+  geom_density_ridges2() +
+  ylab("Child Age (months)") +
+  xlab("More Atypical                                                    More Typical \n   Typicality of adjective-noun pairs") +
+  ggtitle("Density plot of parents' adjective use across development") +
+  # geom_mark_rect(aes(filter= typicality >= 6, y=15.5)) +
+  # geom_mark_rect(aes(filter= typicality >= 6, y=60)) +
+  theme_minimal() +
+  scale_fill_gradient2 (low=muted("orange"), high=muted("red")) +
+  theme(panel.grid = element_line(color="lightgrey",size=0.5),
+    axis.line = element_line(colour = "black"),
+    axis.ticks = element_line()) +
+  scale_y_continuous(minor_breaks = seq(14, 58, 8), breaks = seq(14, 58, 8))+
+  scale_x_continuous(minor_breaks = seq(1 , 7, 1), breaks = seq(1, 7, 1))
+
+```
+
+
+
+```{r}
+#look for prototypicals
+#  defined as anything 5 or higher, "somewhat typical" to "extremely  typical"
+prototypicals <- full_turk_counts %>% 
+  mutate(typicality=mean_typ) %>%
+  group_by(session, typicality) %>%
+  summarize(sum=sum(n)) %>%
+  mutate(howTyp = if_else(typicality>=5, T, F)) %>%
+  group_by(session, howTyp) %>%
+  summarize(sum=sum(sum)) %>%
+  mutate(prop=sum/sum(sum)) %>%
+  filter(howTyp)
+
+
+prototypicals %>%
+  mutate(age = (4*session + 10)) %>%
+  ggplot(aes(x=age,y=prop, colour=age)) +
+  geom_smooth(method= lm, color= "black")+
+  geom_point(aes(fill=age), colour="black",pch=21, size=5) +
+  ylab("Proportion of modifiers that rated as \n typical of modified noun") +
+  xlab("Child's Age (months)") +
+  scale_x_continuous(minor_breaks = seq(14, 58, 4), breaks = seq(14, 58, 4))+
+  theme_minimal() +
+  scale_fill_gradient2(low=muted("orange"), high=muted("red")) +
+  theme(axis.line = element_line(colour = "black"),
+        axis.ticks = element_line(),
+        axis.text = element_text(size=20),
+        panel.grid = element_line(color="lightgrey",size=0.5))
+
+
+```
+
+
+```{r}
+cor.test(prototypicals$session, prototypicals$prop)
+```
+
+
+```{r}
+full_turk_aggregate <- full_turk_counts %>%
+  rowwise() %>%
+  mutate(median = round(median(c(x1,x2,x3,x4,x5), na.rm = TRUE))) %>%
+  select(-network_id, -attncheckscore, -adj_stem, -noun_stem) %>%
+  group_by(session, median) %>%
+  summarize(n=sum(n))
+
+head(full_turk_counts)
+
+summary(lm(data=full_turk_counts, n ~ session * mean_typ))
+
+
+```
+
