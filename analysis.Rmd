@@ -41,7 +41,7 @@ data %>%
   hist()
 
 ggplot(data, aes(x = network_id)) +
-  geom_histogram(bins = 10)
+  geom_histogram(bins = 111)
 
 ggplot(data, aes(x = contents)) +
   geom_histogram(bins = 7)
@@ -50,7 +50,7 @@ interrater <- data %>%
   unite(stim, property1, property2) %>%
   group_by(stim) %>%
   summarise(n = n()) %>%
-  filter(n == 2)
+  filter(n > 1)
 
 wide_data <- data %>%
   unite(stim, property1, property2) %>%
@@ -65,8 +65,7 @@ wide_data <- data %>%
 
 wide_data %>%
   arrange(desc(range)) %>%
-  separate(stim, into = c("adjective", "noun")) %>% 
-  View()
+  separate(stim, into = c("adjective", "noun")) 
 
 ggplot(wide_data, aes(x = x1, y = x2)) + 
   geom_jitter()
