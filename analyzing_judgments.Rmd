@@ -8,9 +8,14 @@ output: html_document
 
 ```{r setup}
 #set up
-library(tidyverse)
 library(ggridges)
 library(ggforce)
+library(here)
+library(scales)
+library(tidyboot)
+library(broom)
+library(broom.mixed)
+library(tidyverse)
 
 
 knitr::opts_chunk$set(fig.align='center', echo=FALSE, messages=FALSE, warning = FALSE,
@@ -21,7 +26,7 @@ knitr::opts_chunk$set(fig.align='center', echo=FALSE, messages=FALSE, warning = 
 ```{r}
 #read in the judgment data
 # judgments_session <- read.csv("full_judgments_callab.csv")
-full_turk_counts <- read.csv("data/judgements_session.csv")
+full_turk_counts <- read_csv(here("data/judgments_session.csv"))
 ```
 
 
@@ -29,18 +34,36 @@ full_turk_counts <- read.csv("data/judgements_session.csv")
 #get overall usage data
 judgments_overall <- full_turk_counts %>%
   group_by(mean_typ) %>%
-  summarize(sum=sum(n))
+  summarize(sum = sum(n))
 
 #and plot overall usage
-ggplot(data=judgments_overall, aes(x=mean_typ, y=sum)) +
-  geom_bar(stat="identity") +  
+ggplot(data = judgments_overall, aes(x = mean_typ, y = sum)) +
+  geom_bar(stat = "identity") +  
   scale_x_continuous(breaks = 1:7) 
-
-
-
-
 ```
 
+
+```{r}
+age_values <- full_turk_counts %>%
+  mutate(age = (4 * session + 10)) %>%
+  gather(turker, response, x1:x5)
+
+lm_age <- lm(response ~ age, weights = n, data = age_values) 
+lm_log_log_age <- lm(log(response) ~ log(age), weights = n, data = age_values)
+lm_log_age <- lm(response ~ log(age), weights = n, data = age_values)
+
+age_means <- age_values %>%
+  group_by(age) %>%
+  tidyboot_mean(response, n)
+
+ggplot(age_means, aes(x = age, y = empirical_stat)) + 
+  geom_pointrange(aes(ymin = ci_lower, ymax = ci_upper)) 
+
+
+ggplot(age_values, aes(x = age, y = response, group = age)) + 
+  geom_boxplot()
+
+```
 
 
 ```{r}
@@ -81,12 +104,12 @@ full_turk_counts_plot %>%
 #look for prototypicals
 #  defined as anything 5 or higher, "somewhat typical" to "extremely  typical"
 prototypicals <- full_turk_counts %>% 
-  mutate(typicality=mean_typ) %>%
+  rename(typicality = mean_typ) %>%
   group_by(session, typicality) %>%
-  summarize(sum=sum(n)) %>%
+  summarize(sum = sum(n)) %>%
   mutate(howTyp = if_else(typicality>=5, T, F)) %>%
   group_by(session, howTyp) %>%
-  summarize(sum=sum(sum)) %>%
+  summarize(sum = sum(sum)) %>%
   mutate(prop=sum/sum(sum)) %>%
   filter(howTyp)
 
